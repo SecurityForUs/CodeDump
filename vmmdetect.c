@@ -1,9 +1,4 @@
-/**
- * ScoopyLinux is a proof-of-concept fork of ScoopyNG
- * While ScoopyNG was built for Windows, this is built for Linux.
- * ScoopyLinux requires only gcc and an assembler installed.
- * This project utilizes AT&T syntax to better suite the straight-Linux conformity.
- *
+/*
  * Code is derived from different sources:
  *
  * ScoopyNG Homepage (OSS): http://trapkit.de/
@@ -21,7 +16,7 @@
  * Most code does not detect the VM correctly anymore, except for the port check on tests I've ran.
  *
  * Source is available for free.  I'm not responsible for any harm this might do.
- * If any questions arise, please contact me at eric@eric-hansen.info and I'll do my best to assist.
+ * If any questions arise, please contact me at ehansen@securityfor.us and I'll do my best to assist.
  *
  * If enough interest is given, I will port this to Windows and/or strictly assembly-based in the future.
  **/
