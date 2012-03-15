@@ -20,6 +20,7 @@ class Auth_SSH {
 	var $host;
 	var $port;
 	var $fp_check;
+	var $set;
 
 	function SSH_Conn(){
 		global $ssh_config;
@@ -35,6 +36,9 @@ class Auth_SSH {
 
 				if(!$this->SSH_FP() && !$this->fp_check)
 					return false; // Message is already stored
+
+				if(!$this->fp_check)
+					$this->set = 1;
 
 				return $this->ssh_conn;
 			}
@@ -80,7 +84,12 @@ class Auth_SSH {
 		$r = $this->SSH_Conn();
 		$this->fp_check = 0;
 
-		return ssh2_fingerprint($r, SSH2_FINGERPRINT_MD5 | SSH2_FINGERPRINT_HEX);
+		$fp = ssh2_fingerprint($r, SSH2_FINGERPRINT_MD5 | SSH2_FINGERPRINT_HEX);
+
+		if(!$this->set)
+			$this->ssh_conn = 0;
+
+		return $fp;
 	}
 
 	function SSH_AuthKey($username, $pubkeyfile, $passphrase){
