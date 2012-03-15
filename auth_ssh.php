@@ -63,7 +63,7 @@ class Auth_SSH {
 
 		$r = $this->SSH_Conn();
 
-		$finger = ssh2_fingerprint($r, SSH2_FINGERPRINT_MD5 | SSH2_FINGERPRINT_HEX);
+		$finger = $this->SSH_GetFP();
 
 		if(strcmp($finger, $ssh_config['fp']) != 0){
 			$this->msg = "Invalid server fingerprint.  Closing connection.";
