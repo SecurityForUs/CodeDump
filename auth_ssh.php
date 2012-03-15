@@ -32,6 +32,9 @@ class Auth_SSH {
 					return false;
 				}
 
+				if(!$this->SSH_FP())
+					return false; // Message is already stored
+
 				return $this->ssh_conn;
 			}
 
