@@ -19,6 +19,7 @@ class Auth_SSH {
 	var $ssh_conn;
 	var $host;
 	var $port;
+	var $fp_check;
 
 	function SSH_Conn(){
 		global $ssh_config;
@@ -32,7 +33,7 @@ class Auth_SSH {
 					return false;
 				}
 
-				if(!$this->SSH_FP())
+				if(!$this->SSH_FP() && !$this->fp_check)
 					return false; // Message is already stored
 
 				return $this->ssh_conn;
@@ -75,7 +76,9 @@ class Auth_SSH {
 	}
 
 	function SSH_GetFP(){
+		$this->fp_check = 1;
 		$r = $this->SSH_Conn();
+		$this->fp_check = 0;
 
 		return ssh2_fingerprint($r, SSH2_FINGERPRINT_MD5 | SSH2_FINGERPRINT_HEX);
 	}
