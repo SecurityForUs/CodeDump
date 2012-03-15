@@ -54,7 +54,7 @@ class Auth_SSH {
 		global $ssh_config;
 
 		if(strlen($ssh_config['fp']) != 32){
-			$this->msg = "Host fingerprint is incorrect (". $ssh_config['fp'] ."; ". strlen($ssh_config['fp']) .").";
+			$this->msg = "Host fingerprint length is incorrect.";
 			return false;
 		}
 
@@ -63,12 +63,18 @@ class Auth_SSH {
 		$finger = ssh2_fingerprint($r, SSH2_FINGERPRINT_MD5 | SSH2_FINGERPRINT_HEX);
 
 		if(strcmp($finger, $ssh_config['fp']) != 0){
-			$this->msg = "Invalid server fingerprint (". $finger ." =/= ". $ssh_config['fp'] .").  Closing connection.";
+			$this->msg = "Invalid server fingerprint.  Closing connection.";
 			$this->ssh_conn = null;
 			return false;
 		}
 
 		return true;
+	}
+
+	function SSH_GetFP(){
+		$r = $this->SSH_Conn();
+
+		return ssh2_fingerprint($r, SSH2_FINGERPRINT_MD5 | SSH2_FINGERPRINT_HEX);
 	}
 
 	function SSH_AuthKey($username, $pubkeyfile, $passphrase){
