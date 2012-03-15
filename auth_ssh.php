@@ -83,11 +83,11 @@ class Auth_SSH {
 	function SSH_AuthKey($username, $pubkeyfile, $passphrase){
 		global $ssh_config;
 
-		if(!file_exists($privkeyfile)){
+/*		if(!file_exists($privkeyfile)){
 			$this->msg = "Unable to find private key file.";
 			return false;
 		}
-
+*/
 		if(empty($passphrase)){
 			$this->msg = "Due to security concerns, the private and public keys must have a passphrase.";
 			return false;
