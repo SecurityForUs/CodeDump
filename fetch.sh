@@ -32,6 +32,14 @@ timer(){
     fi
 }
 
+NEW=0
+
+OUTPUT="/tmp/bad_ips"
+
+if [ -z `cat $OUTPUT` ]; then
+	NEW=1
+fi
+
 SCRIPT_TIME=$(timer)
 
 CURL_CHECK=`curl --version | grep curl`
@@ -44,7 +52,6 @@ fi
 
 j=0
 
-OUTPUT="/tmp/bad_ips"
 COUNTRIES=""
 CL="AF AX AL DZ AS AD AO AI AQ AG AR AM AW AP AU AT AZ BS BH BD BB BY BE BZ BJ BM BT XA BO BQ BA BW BV BR IO BN BG BF BI KH CM CA CV KY CF TD CL CN CX CC CO KM CG CD CK CR CI HR CU CW CY CZ DK DJ DM DO EC EG SV GQ ER EE ET EU FK FO FJ FI FR GF PF TF GA GM GE DE GH GI GR GL GD GP GU GT GG GN GW GY HT HM VA HN HK HU IS IN ID IR IQ IE IM IL IT JM JP JE JO KZ KE KI KP KR CS KW KG LA LV LB LS LR LY LI LT LU MO MK MG MW MY MV ML MT MH MQ MR MU YT MX FM MD MC MN ME MS MA MZ MM NA NR NP NL AN NC NZ NI NE NG NU NF MP NO OM PK PW PS PA PG PY PE PH PN PL PT PR QA RE RO RU RW BL SH KN LC MF PM VC WS SM ST SA SN RS SC SL SG SX SK SI SB SO ZA GS ES LK SD SR SJ SZ SE CH SY TW TJ TZ TH TL TG TK TO TT TN TR TM TC TV UG UA AE GB US UM UY UZ VU VE VN VG VI WF EH YE ZM ZW"
 CBURL="http://www.countryipblocks.net/country-blocks/select-formats/"
@@ -86,7 +93,7 @@ FIELDS="format1=1&choose_countries=Choose Countries$COUNTRIES"
 echo "Output file: $OUTPUT"
 echo "Fetching $j countries."
 echo "Use cURL: $USE_CURL"
-echo "Fetching IP list from $CBURL"
+echo "[`date +%r`] Fetching IP list from $CBURL"
 
 FETCH_TIME=$(timer)
 
@@ -107,21 +114,26 @@ found=0
 stored=0
 denied=0
 
-echo -n "Fetching IPs and storing them in $OUTPUT..."
+echo -n "[`date +%r`] Fetching IPs and storing them in $OUTPUT..."
 
 IP_LIST=`cat $OUTPUT`
 
 STORE_TIME=$(timer)
 
 for i in `cat data.html | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/[0-9]\{1,2\}'`; do
-#	EXISTS=`echo -n "$IP_LIST" | grep $i`
-
-#	if [ -z "$EXISTS" ]; then
+	if [ $NEW -eq 1 ]; then
 		echo $i >> $OUTPUT
 		stored=$(($stored + 1))
-#	else
-#		denied=$(($denied + 1))
-#	fi
+	else
+		EXISTS=`grep $i $OUTPUT`
+
+		if [ -z "$EXISTS" ]; then
+			echo $i >> $OUTPUT
+			stored=$(($stored + 1))
+		else
+			denied=$(($denied + 1))
+		fi
+	fi
 
 	found=$(($found + 1))
 done
@@ -129,6 +141,6 @@ echo "done."
 
 printf '!! Elapsed time for storing IP list: %s\n' $(timer $STORE_TIME)
 
-echo "A total of $found blacklisted IPs were fetched, $0 stored $stored of them in $OUTPUT, while $denied were already present."
+echo "[`date +%r`] A total of $found blacklisted IPs were fetched, $0 stored $stored of them in $OUTPUT, while $denied were already present."
 
 printf '!! Script execution time: %s\n' $(timer $SCRIPT_TIME)
