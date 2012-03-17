@@ -83,7 +83,7 @@ fi
 NEW=0
 
 # If output file is empty assume fresh fetching
-if [ -z `cat $OUTPUT` ]; then
+if [ -z "`cat $OUTPUT`" ]; then
 	NEW=1
 fi
 
