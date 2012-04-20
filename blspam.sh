@@ -4,6 +4,18 @@
 # As the fetch.sh script no longer works, a new list gen was made.
 # This one takes a list from Spam-IP.com and parses the CSV file.
 # This is also a complete rewrite as well of fetch.sh
+#
+# Script created by Eric Hansen
+# Security For Us, LLC https://www.securityfor.us/
+# Contact: ehansen@securityfor.us
+#
+# Usage:
+# ./blspam.sh [date]
+# By default blspam.sh gets current date.  If you want to specify a certain
+# date, pass it as a second argument in format mm-dd-yyyy (i.e.: 01/31/2028)
+#
+# The CSV file at spam-ip.com is updated hourly.
+#
 
 timer(){
     if [ $# -eq 0 ]; then
@@ -25,7 +37,13 @@ timer(){
 }
 
 SIPURL="http://spam-ip.com/csv_dump/spam-ip.com_"
-DATE="`date +%m-%d-%Y`"
+
+if [ -n "$2" ]; then
+	DATE="$2"
+else
+	DATE="`date +%m-%d-%Y`"
+fi
+
 SIPURL="$SIPURL$DATE.csv"
 DUMP="/tmp/blips"
 LIST="/tmp/ip_list"
