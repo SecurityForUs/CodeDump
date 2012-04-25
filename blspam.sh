@@ -50,6 +50,7 @@ LIST="/tmp/ip_list"
 IP_COUNT=0
 
 echo -n "Emptying current blacklist..."
+rm -rf "$LIST"
 touch "$LIST"
 echo "done."
 
