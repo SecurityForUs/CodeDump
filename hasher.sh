@@ -1,6 +1,6 @@
 #!/bin/sh
 
-HASH="8db6a9a5cbe035da38e7738b2e831ea3"
+HASH="$1"
 
 for i in {6531..6535}
 do
