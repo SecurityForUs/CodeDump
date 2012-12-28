@@ -1,7 +1,6 @@
 #!/bin/bash
 
-# This script is modified from the one found here: 
-https://wiki.archlinux.org/index.php/IPv6_-_Tunnel_Broker_Setup
+# This script is modified from the one found here: https://wiki.archlinux.org/index.php/IPv6_-_Tunnel_Broker_Setup
 # Noticably this script now runs like this:
 # $0 <start|stop> <device name>
 #
