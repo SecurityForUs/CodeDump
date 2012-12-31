@@ -2,7 +2,7 @@
 
 # Code is swipped from http://legroom.net/2010/05/02/port-testing-and-scanning-bash
 #
-# Usage: ./portscan.sh
+# Usage: ./portscan.sh <ip>
 #
 # Change range in {...} block as you please.
 
@@ -16,5 +16,5 @@ function port() {
 }
 
 for i in {22..80}; do
-        port 192.168.1.13 $i
+        port $1 $i
 done
