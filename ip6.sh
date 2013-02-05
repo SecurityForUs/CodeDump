@@ -15,10 +15,13 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+# Edit these
 if_name=he6in4
-server_ipv4='209.51.181.2' # HE Server Endpoint IP
+server_ipv4='' # HE Server Endpoint IP
+client_ipv6='' # Your HE-assigned client IP
+
+# Don't edit below this line
 client_ipv4=''
-client_ipv6='2001:470:1f10:728::2' # Your HE-assigned client IP
 link_mtu=1480
 tunnel_ttl=255
 
